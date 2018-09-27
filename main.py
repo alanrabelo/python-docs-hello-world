@@ -6,10 +6,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, validators
 from HMM import HMM
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'myKey'
 
-@app.route('/ok')
-def hello_world():
-  return 'Hello, Azure!'
 
 class LoginForm(FlaskForm):
     sentence = StringField('sentence', validators=[validators.length(min=3, message=(u'Little short for a sentence?'))])
