@@ -7,7 +7,7 @@ from wtforms import StringField, validators
 from HMM import HMM
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/ok')
 def hello_world():
   return 'Hello, Azure!'
 
