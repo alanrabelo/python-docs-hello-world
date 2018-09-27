@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>POS Taggin with Hidden Markov Models</title>
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+	<link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="/static/libs/font-awesome/css/font-awesome.min.css">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/styles.css" rel="stylesheet">
+    <meta name="keywords" content="iOS,Developer,Swift,Objective-C,Scrum,Xcode,Machine Learning,Neural Networks,Python,Matlab,Natural language,POS Tagging,Probabilistic Graphical Models, Probabilistic, Graphical, Models, CRF, Conditional Random Fields">
+    <meta name="description" content="This project was developed for the course of Probabilistic Graphical Models of Federal Institute of Education, Science and Technology of Ceará - IFCE. It uses Hidden Markov Models to classify a sentence in POS Tags. n corpus linguistics, part-of-speech tagging (POS tagging or PoS tagging or POST), also called grammatical tagging or word-category disambiguation, is the process of marking up a word in a text (corpus) as corresponding to a particular part of speech, based on both its definition and its context—i.e., its relationship with adjacent and related words in a phrase, sentence, or paragraph. A simplified form of this is commonly taught to school-age children, in the identification of words as nouns, verbs, adjectives, adverbs, etc."/>
+</head>
+
+<body>
+    <div id="mobile-menu-open" class="shadow-large">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+    </div>
+    <!-- End #mobile-menu-toggle -->
+    <header>
+
+        <div id="mobile-menu-close">
+            <span>Close</span> <i class="fa fa-times" aria-hidden="true"></i>
+        </div>
+        <ul id="menu" class="shadow">
+            <li>
+                <a href="https://alanrabelo.github.io" class="no-scroll" target="_blank">Home</a>
+            </li>
+            <li>
+                <a href="#about">About</a>
+            </li>
+            <li>
+                <a href="#skills">Skills</a>
+            </li>
+            <li>
+                <a href="#contact">Contact</a>
+            </li>
+        </ul>
+    </header>
+    <!-- End header -->
+
+    <div id="lead">
+        <div id="lead-content">
+            <form method="post" name="sentece" action="">
+                <h1>POS tagging</h1>
+                <h2 style="color: aliceblue">with Hidden Markov Models</h2>
+                <h2>Type any sentence in Portuguese:</h2>
+                {{ form.sentence(class_='sentenceInput', size=45) }}
+                <br>
+                <br>
+                <input type="submit" class="btn-rounded-white" value="Classify Sentence">
+                {% if result %}
+                    <br>
+                    <h3 style="color:#f2f2f5">{{ result }}</h3>
+                {% endif %}
+            </form>
+        </div>
+        <!-- End #lead-content -->
+
+        <div id="lead-overlay"></div>
+
+        <div id="lead-down">
+            <span>
+                <i class="fa fa-chevron-down" aria-hidden="true"></i>
+            </span>
+        </div>
+        <!-- End #lead-down -->
+    </div>
+    <!-- End #lead -->
+
+    <div id="about">
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h2 class="heading">About The Project</h2>
+                </div>
+                <div class="col-md-8">
+                    <p>
+This project was developed for the course of Probabilistic Graphical Models of Federal Institute of Education, Science and Technology of Ceará - IFCE. It uses Hidden Markov Models to classify a sentence in POS Tags. n corpus linguistics, part-of-speech tagging (POS tagging or PoS tagging or POST), also called grammatical tagging or word-category disambiguation, is the process of marking up a word in a text (corpus) as corresponding to a particular part of speech, based on both its definition and its context—i.e., its relationship with adjacent and related words in a phrase, sentence, or paragraph. A simplified form of this is commonly taught to school-age children, in the identification of words as nouns, verbs, adjectives, adverbs, etc.                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End #about -->
+
+{#    <div id="experience" class="background-alt">#}
+{#        <h2 class="heading">Experience</h2>#}
+{#        <div id="experience-timeline">#}
+{#            <div data-date="January 2016 – December 2017">#}
+{#                <h3>Apple Developer Academy</h3>#}
+{#                <h4>iOS Developer</h4>#}
+{#                <p>#}
+{#                    I develop iOS, Watch OS and TV OS applications, in both Objective-C and Swift languages. At BEPiD all projects are developed using Agile methods, like SCRUM.#}
+{#                </p>#}
+{#            </div>#}
+{##}
+{#            <div data-date="December 2010 – December 2014">#}
+{#                <h3>Pisom.com Visual Communication and Print Shop</h3>#}
+{#                <h4>Designer</h4>#}
+{#                <p>#}
+{#                    Using as main tools Adobe Photoshop and Illustrator, worked developing logos and visual identity of companies. Creating also arts for banners, plaques, cards and leaflets.#}
+{#                </p>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#    <!-- End #experience -->#}
+{##}
+{#    <div id="education">#}
+{#        <h2 class="heading">Education</h2>#}
+{#        <div class="education-block">#}
+{#            <h3>Federal Institute of Education, Science and Tecnology of Ceará - IFCE </h3>#}
+{#            <span class="education-date">Aug 2013 - Dec 2018</span>#}
+{#            <h4>Bachelor in Computer Science</h4>#}
+{#            <p>#}
+{#                My preferred fields of study are: Machine Learning with Neural Networks (Supervised and Unsupervised Learning) and Natural Language using Probabilistic Graphical Models.#}
+{#            </p>#}
+{#        </div>#}
+{#        <!-- End .education-block -->#}
+{#    </div>#}
+{#    <!-- End #education -->#}
+{##}
+{#    <div id="projects" class="background-alt">#}
+{#        <h2 class="heading">Projects</h2>#}
+{#        <div class="container">#}
+{#            <div class="row">#}
+{#                <div class="project shadow-large">#}
+{#                    <div class="project-image">#}
+{#                        <img src="images/loop.png" alt="Loop and Loop Assistant iOS and Android Icon"/>#}
+{#                    </div>#}
+{#                    <!-- End .project-image -->#}
+{#                    <div class="project-info">#}
+{#                        <h3>Loop</h3>#}
+{#                        <p>#}
+{#                            The purpose of Loop and Loop Assistant is to develop an up-to-date way of communication in the academic environment.#}
+{#                            Manage exchange of messages in the academic community: Students, Teachers and Institution.#}
+{#                            Manage student groups, which can be grouped by ongoing courses or by some other criteria defined by users.#}
+{#                            Groups study materials such as pdfs, articles and other documents. A virtual assistant, which is called Loop Assist, to facilitate as tasks.#}
+{#                            Student Presence Control. Smarter Academic Calendar. Notifications and Alerts on campus-less events.#}
+{#                        </p>#}
+{#                        <!--<a href="#">View Project</a>-->#}
+{#                    </div>#}
+{#                    <!-- End .project-info -->#}
+{#                </div>#}
+{#                <!-- End .project -->#}
+{##}
+{#                <div class="project shadow-large">#}
+{#                    <div class="project-image">#}
+{#                        <img src="images/actsports.jpg" alt="ActSports iOS Icon"/>#}
+{#                    </div>#}
+{#                    <!-- End .project-image -->#}
+{#                    <div class="project-info">#}
+{#                        <h3>Act Sports</h3>#}
+{#                        <p>#}
+{#                            ActSports aims to facilitate the meeting of people interested in the same sports allowing them to exercise together. In addition, the app will also serve as a showcase for instructors of all types of sports to publicize their work and thus get more customers.                        </p>#}
+{#                        <a href="https://www.actsportsapp.com">Visit Home Page</a>#}
+{#                    </div>#}
+{#                    <!-- End .project-info -->#}
+{#                </div>#}
+{#                <!-- End .project -->#}
+{##}
+{#                <div class="project shadow-large">#}
+{#                    <div class="project-image">#}
+{#                        <img src="images/ludostadium.png" alt="Ludo Stadium iOS Icon"/>#}
+{#                    </div>#}
+{#                    <!-- End .project-image -->#}
+{#                    <div class="project-info">#}
+{#                        <h3>Ludo Stadium</h3>#}
+{#                        <p>#}
+{#                            We want to introduce you in the Ludo Stadium world!#}
+{#                            Here we have two game modes: - Normal Ludo mode - Ludo Adventure mode#}
+{#                            Both modes are really exciting and fun to play with friends with a 3D experience! For those who loves nostalgic feelings, we recommend you our original version of Ludo game. But, if you prefer something more sophisticated and challenging, you should try the Ludo Adventure mode where you will face some fun obstacles to reach your objective!                        <!--<a href="#">View Project</a>-->#}
+{##}
+{#                        </p>#}
+{#                        <a href="https://itunes.apple.com/app/id1213350105?mt=8">View on App Store</a>#}
+{##}
+{##}
+{#                    </div>#}
+{#                    <!-- End .project-info -->#}
+{#                </div>#}
+{#                <!-- End .project -->#}
+{##}
+{#                <div class="project shadow-large">#}
+{#                    <div class="project-image">#}
+{#                        <img src="images/dailymemories.png" alt="Daily Memories iOS Icon"/>#}
+{#                    </div>#}
+{#                    <!-- End .project-image -->#}
+{#                    <div class="project-info">#}
+{#                        <h3>Daily Memories</h3>#}
+{#                        <p>#}
+{#                            The Daily Memories is a kind of diary, where you save your records safely. With it you can save everything you do in your day-to-day life, such as your adventures, memories and things you can not forget today. You can also keep everything secure using the Touch ID or a password, and you can be reminded to daily produce your memories.#}
+{#                        </p>#}
+{#                        <a href="https://itunes.apple.com/app/id1195936064?mt=8">View on App Store</a>#}
+{#                    </div>#}
+{#                    <!-- End .project-info -->#}
+{#                </div>#}
+{#                <!-- End .project -->#}
+{##}
+{#                <div class="project shadow-large">#}
+{#                    <div class="project-image">#}
+{#                        <img src="images/fourseasons.png" alt="Four Seasons iOS Icon"/>#}
+{#                    </div>#}
+{#                    <!-- End .project-image -->#}
+{#                    <div class="project-info">#}
+{#                        <h3>Four Seasons - Music For Kids</h3>#}
+{#                        <p>#}
+{#                            It's a game to help children to know more about notes and songs. In addition kids develop logical reasoning. The parents can see their children evolution. Earn points and envolve with your buddy!#}
+{#                        </p>#}
+{#                        <a href="https://itunes.apple.com/br/app/four-seasons-music-for-kids/id1217541927?l=en&mt=8&lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3BmYXgMyqNSE2LFIr%2BCeDn7A%3D%3D">View Project</a>#}
+{#                    </div>#}
+{#                    <!-- End .project-info -->#}
+{#                </div>#}
+{#                <!-- End .project -->#}
+{##}
+{#                <div class="project shadow-large">#}
+{#                    <div class="project-image">#}
+{#                        <img src="images/bestfit.png" alt="Best Fit iOS Icon"/>#}
+{#                    </div>#}
+{#                    <!-- End .project-image -->#}
+{#                    <div class="project-info">#}
+{#                        <h3>Best Fit - Schedule your Exercises</h3>#}
+{#                        <p>#}
+{#                            Control your exercises, body measures and progress. BestFit will help you to organize your training and keep you updated about all your body information. It perfectly integrates with HealthKit and can be easily edited for you.#}
+{#                        </p>#}
+{#                        <a href="https://itunes.apple.com/app/id1278307283?mt=8">View on App Store</a>#}
+{#                    </div>#}
+{#                    <!-- End .project-info -->#}
+{#                </div>#}
+{#                <!-- End .project -->#}
+{##}
+{#                <div class="project shadow-large">#}
+{#                    <div class="project-image">#}
+{#                        <img src="images/stopspending.png" alt="Stop Spending iOS Icon"/>#}
+{#                    </div>#}
+{#                    <!-- End .project-image -->#}
+{#                    <div class="project-info">#}
+{#                        <h3>Stop Spending</h3>#}
+{#                        <p>#}
+{#                            This is an app to help people saving money. We tried to do a simple app, easy and with fast use. The user can add their expense with one click and choose complete three things in forms:#}
+{#                            the name,the price and the category. The rest, he can edit after, if want. The same thing occur with goals: choose the category, the value that want to expend with things in this category#}
+{#                            and the time period that he want expend this value. The expenses that put in the first screen go immediately to the second, if this expense have the same category and time period that their goal.#}
+{#                            The last thing is: The user can organize the expenses that way their want.#}
+{#                        </p>#}
+{#                        <a href="https://id.idup.org/app/appinfo/view/id/5ba8a44017f6c79520017302a08b2b00">View on App Store</a>#}
+{#                    </div>#}
+{#                    <!-- End .project-info -->#}
+{#                </div>#}
+{#                <!-- End .project -->#}
+{##}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#    <!-- End #projects -->#}
+
+    <div id="skills">
+        <h2 class="heading">Skills</h2>
+        <ul>
+            <li>Python</li>
+            <li>Hidden Markov Models</li>
+            <li>POS Tagging</li>
+            <li>Parts-of-speech</li>
+            <li>Machine Learning</li>
+            <li>Natural Language Processing</li>
+            <li>Named Entity Recognition</li>
+            <li>Probabilistic Graphical Models</li>
+        </ul>
+    </div>
+    <!-- End #skills -->
+
+    <div id="contact">
+        <h2>Get in Touch</h2>
+        <div id="contact-form">
+            <form method="POST" action="https://formspree.io/alanrabelo@icloud.com">
+                <input type="hidden" name="_subject" value="Contact request from personal website" />
+                <input type="email" name="_replyto" placeholder="Your email" required>
+                <textarea name="message" placeholder="Your message" required></textarea>
+                <button type="submit">Send</button>
+            </form>
+        </div>
+        <!-- End #contact-form -->
+    </div>
+    <!-- End #contact -->
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-5 copyright">
+                    <p>
+                        Copyright &copy; 2017 Alan Rabelo Martins e Tiago Queiroz
+                    </p>
+                </div>
+                <div class="col-sm-2 top">
+                    <span id="to-top">
+                        <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                    </span>
+                </div>
+                <div class="col-sm-5 social">
+                    <ul>
+                        <li>
+                            <a href="https://github.com/alanrabelo" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+                        </li>
+                        <li>
+                            <a href="https://www.linkedin.com/in/alanrabelomartins/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                        </li>
+                        <li>
+                            <a href="https://www.instagram.com/alanrabelo13" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                        </li>
+                        <li>
+                            <a href="https://www.facebook.com/alanrabelomartins" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com/alanrabelo13" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- End footer -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="/static/js/scripts.js"></script>
+</body>
+
+</html>
